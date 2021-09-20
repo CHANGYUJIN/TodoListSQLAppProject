@@ -124,7 +124,7 @@ public class TodoUtil {
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("todolist.txt 파일이 없습니다.");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
