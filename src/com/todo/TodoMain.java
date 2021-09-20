@@ -14,8 +14,10 @@ public class TodoMain {
 		TodoList l = new TodoList();
 		boolean isList = false;
 		boolean quit = false;
+		TodoUtil.loadList(l, "todolist.txt");
+		Menu.displaymenu();
 		do {
-			Menu.displaymenu();
+			Menu.prompt();
 			isList = false;
 			String choice = sc.next();
 			switch (choice) {
@@ -38,30 +40,39 @@ public class TodoMain {
 
 			case "ls_name_asc":
 				l.sortByName();
+				System.out.println("sorted by name in ascending order");
 				isList = true;
 				break;
 
 			case "ls_name_desc":
 				l.sortByName();
 				l.reverseList();
+				System.out.println("sorted by name in descending order");
 				isList = true;
 				break;
 				
 			case "ls_date":
 				l.sortByDate();
+				System.out.println("sorted by date");
 				isList = true;
 				break;
-
+			
+			case "help":
+				Menu.displaymenu();
+				break;
+				
 			case "exit":
 				quit = true;
 				break;
 
 			default:
-				System.out.println("please enter one of the above mentioned command");
+				System.out.println("command not exist (enter 'help' to see the commands)");
 				break;
 			}
 			
-			if(isList) l.listAll();
+			if(isList) TodoUtil.listAll(l);
 		} while (!quit);
+		TodoUtil.saveList(l, "todolist.txt");
+		
 	}
 }
