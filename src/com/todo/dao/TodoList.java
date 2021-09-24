@@ -20,10 +20,14 @@ public class TodoList {
 		list.remove(t);
 	}
 
-	void editItem(TodoItem t, TodoItem updated) {
+	public void editItem(TodoItem t, TodoItem updated) {
 		int index = list.indexOf(t);
 		list.remove(index);
 		list.add(updated);
+	}
+	
+	public int findItem(TodoItem t) {
+		return list.indexOf(t);
 	}
 
 	public ArrayList<TodoItem> getList() {
@@ -60,5 +64,13 @@ public class TodoList {
 			if (title.equals(item.getTitle())) return true;
 		}
 		return false;
+	}
+	
+	public int getItemTotalNumber() {
+		int num = 0;
+		for(TodoItem item : list) {
+			num++;
+		}
+		return num;
 	}
 }

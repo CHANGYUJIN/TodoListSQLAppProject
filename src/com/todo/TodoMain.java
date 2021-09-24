@@ -33,11 +33,23 @@ public class TodoMain {
 			case "edit":
 				TodoUtil.updateItem(l);
 				break;
+			
+			case "find":
+				TodoUtil.findItem(l);
+				break;
 				
+			case "find_cate":
+				TodoUtil.findCategory(l);
+				break;
+			
 			case "ls":
 				TodoUtil.listAll(l);
 				break;
-
+			
+			case "ls_cate":
+				TodoUtil.listCategory(l);
+				break;
+				
 			case "ls_name_asc":
 				l.sortByName();
 				System.out.println("sorted by name in ascending order");
@@ -53,10 +65,17 @@ public class TodoMain {
 				
 			case "ls_date":
 				l.sortByDate();
-				System.out.println("sorted by date");
+				System.out.println("sorted by date in ascending order");
 				isList = true;
 				break;
-			
+				
+			case "ls_date_desc":
+				l.sortByDate();
+				l.reverseList();
+				System.out.println("sorted by date in descending order");
+				isList = true;
+				break;
+				
 			case "help":
 				Menu.displaymenu();
 				break;

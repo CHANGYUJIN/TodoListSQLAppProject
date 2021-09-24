@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -16,10 +17,14 @@ public class TodoUtil {
 	
 	public static void createItem(TodoList list) {
 		
-		String title, desc;
+		String title, desc, category, due_date;
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.print("[add]\ntitle > ");
+		System.out.print("[add]\ncategory > ");
+		category = sc.next();
+		sc.nextLine();
+		
+		System.out.print("title > ");
 		
 		title = sc.next();
 		if (list.isDuplicate(title)) {
@@ -27,10 +32,14 @@ public class TodoUtil {
 			return;
 		}
 		sc.nextLine();
-		System.out.println("enter the description");
+		System.out.print("enter the description > ");
 		desc = sc.nextLine().trim();
 		
-		TodoItem t = new TodoItem(title, desc);
+		System.out.print("enter the due date > ");
+		due_date = sc.next();
+		sc.nextLine();
+		
+		TodoItem t = new TodoItem(category, title, desc, due_date);
 		list.addItem(t);
 		System.out.println("added");
 	}
@@ -39,57 +48,96 @@ public class TodoUtil {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("[del]\nenter the title to be deleted > ");
+		System.out.println("[del]\nenter the item number to be deleted > ");
 		
-		String title = sc.next();
+		int num = sc.nextInt();
+		int i = 0;
 		
 		for (TodoItem item : l.getList()) {
-			if (title.equals(item.getTitle())) {
-				l.deleteItem(item);
-				System.out.println("deleted");
-				break;
+			i++;
+			if (num == i) {
+				System.out.print(item.toString() + "\nDo you want to delete the item listed above? (y/n) > ");
+				String answer = sc.next();
+				if(answer.equals("y")) {
+					l.deleteItem(item);
+					System.out.println("deleted");
+					break;
+				}
+				else
+					break;
 			}
 		}
+		
+		if(num != i)
+			System.out.println("The item number does not exist. Please try again.");
 	}
 
 
 	public static void updateItem(TodoList l) {
-		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("[edit]\nenter the title to be edited > ");
-		String title = sc.next().trim();
-		if (!l.isDuplicate(title)) {
-			System.out.println("title doesn't exist");
-			return;
-		}
+		System.out.println("[edit]\nenter the item number to be edited > ");
+		int num = sc.nextInt();
+		int i = 0;
 
-		System.out.println("new title > ");
-		String new_title = sc.next().trim();
-		if (l.isDuplicate(new_title)) {
-			System.out.println("title can't be duplicate");
-			return;
-		}
-		
-		sc.nextLine();
-		System.out.println("new description > ");
-		String new_description = sc.nextLine().trim();
 		for (TodoItem item : l.getList()) {
-			if (item.getTitle().equals(title)) {
-				l.deleteItem(item);
-				TodoItem t = new TodoItem(new_title, new_description);
-				l.addItem(t);
+			i++;
+			if (num == i) {
+				System.out.println(item.toString());
+				
+				System.out.println("new title > ");
+				String new_title = sc.next().trim();
+				if (l.isDuplicate(new_title)) {
+					System.out.println("title can't be duplicate");
+					return;
+				}
+				
+				sc.nextLine();
+				
+				String new_category = sc.next().trim();
+				sc.nextLine();
+				
+				System.out.print("new description > ");
+				String new_description = sc.nextLine().trim();
+				
+				System.out.print("new due date > ");
+				String new_due_date = sc.next();
+				sc.nextLine();
+				
+				TodoItem t = new TodoItem(new_category, new_title, new_description, new_due_date);
+				l.editItem(item, t);
+				
 				System.out.println("edited");
+				break;
 			}
 		}
+		
+		if(num != i)
+			System.out.println("The item number does not exist. Please try again.");
 
 	}
 
 	public static void listAll(TodoList l) {
-		System.out.println("[list]");
+		int num = 0;
+		
+		System.out.println("[list, " + l.getItemTotalNumber() + " items total]");
 		for (TodoItem item : l.getList()) {
-			System.out.println(item.toString());
+			num++;
+			System.out.println(num + ". " + item.toString());
 		}
+	}
+	
+	public static void listCategory(TodoList l) {
+		HashSet<String> category = new HashSet<>();
+		int i = 0;
+		for(TodoItem item : l.getList()) {
+			category.add(item.getCategory());
+		}
+		for(String cate : category) {
+			i++;
+			System.out.println("- " + cate);
+		}
+		System.out.println("총 " + i + "개의 카테고리 등록되어 있습니다.");
 	}
 	
 	public static void saveList(TodoList l, String filename) {
@@ -115,7 +163,7 @@ public class TodoUtil {
 			String s;
 			while((s = r.readLine()) != null) {
 				StringTokenizer token = new StringTokenizer(s, "##");
-				TodoItem item = new TodoItem(token.nextToken(), token.nextToken());
+				TodoItem item = new TodoItem(token.nextToken(), token.nextToken(), token.nextToken(), token.nextToken());
 				item.setCurrent_date(token.nextToken());
 				l.addItem(item);
 			}
@@ -129,5 +177,38 @@ public class TodoUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void findItem(TodoList l) {
+		Scanner sc = new Scanner(System.in);
+		String keyword = sc.next();
+		int num = 0;
+		int i = 0;
+		
+		for (TodoItem item : l.getList()) {
+			num++;
+			if(item.getTitle().contains(keyword) || item.getDesc().contains(keyword)) {
+				System.out.println(num + ". " + item.toString());
+				i++;
+			}
+		}
+		
+		System.out.println("총 " + i + "개의 항목을 찾았습니다.");
+	}
+	
+	public static void findCategory(TodoList l) {
+		Scanner sc = new Scanner(System.in);
+		String category = sc.next();
+		int num = 0;
+		int i = 0;
+		
+		for (TodoItem item : l.getList()) {
+			num++;
+			if(item.getCategory().contains(category)) {
+				System.out.println(num + ". " + item.toString());
+				i++;
+			}
+		}
+		System.out.println("총 " + i + "개의 항목을 찾았습니다.");
 	}
 }
