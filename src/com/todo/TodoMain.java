@@ -20,6 +20,7 @@ public class TodoMain {
 			Menu.prompt();
 			isList = false;
 			String choice = sc.next();
+			String find_keyword = sc.nextLine().trim();
 			switch (choice) {
 
 			case "add":
@@ -35,11 +36,11 @@ public class TodoMain {
 				break;
 			
 			case "find":
-				TodoUtil.findItem(l);
+				TodoUtil.findItem(l, find_keyword);
 				break;
 				
 			case "find_cate":
-				TodoUtil.findCategory(l);
+				TodoUtil.findCategory(l, find_keyword);
 				break;
 			
 			case "ls":

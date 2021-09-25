@@ -94,6 +94,7 @@ public class TodoUtil {
 				
 				sc.nextLine();
 				
+				System.out.println("new category > ");
 				String new_category = sc.next().trim();
 				sc.nextLine();
 				
@@ -179,9 +180,7 @@ public class TodoUtil {
 		}
 	}
 	
-	public static void findItem(TodoList l) {
-		Scanner sc = new Scanner(System.in);
-		String keyword = sc.next();
+	public static void findItem(TodoList l, String keyword) {
 		int num = 0;
 		int i = 0;
 		
@@ -196,9 +195,7 @@ public class TodoUtil {
 		System.out.println("총 " + i + "개의 항목을 찾았습니다.");
 	}
 	
-	public static void findCategory(TodoList l) {
-		Scanner sc = new Scanner(System.in);
-		String category = sc.next();
+	public static void findCategory(TodoList l, String category) {
 		int num = 0;
 		int i = 0;
 		
