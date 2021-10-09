@@ -8,4 +8,4 @@ lecture##0##english##a lecture for a bonus point##2021/10/03##2021/09/25 10:16:4
 contest##0##programming##mandatory programming contest##2021/10/06##2021/09/25 10:17:14
 chapel##0##wednesday_chapel##online chapel every Wednesday##2021/09/29##2021/09/25 10:19:02
 assignment##0##sound_pattern##presentation about Jeju-eo##2021/10/05##2021/09/25 10:27:33
-
+assignment##0##algebra##chapter 4 exercises##2021/10/11##2021/10/09 02:02:25
