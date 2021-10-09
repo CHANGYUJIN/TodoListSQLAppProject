@@ -123,7 +123,7 @@ public class TodoList {
 		int count = 0;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, t.getIs_completed());
+			pstmt.setInt(1, 1);
 			count = pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {

@@ -11,7 +11,7 @@ public class TodoMain {
 	public static void start() {
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
-		l.importData("todolist.txt");
+		//l.importData("todolist.txt");
 		boolean quit = false;
 		Menu.displaymenu();
 		do {
@@ -56,7 +56,7 @@ public class TodoMain {
 				TodoUtil.listAll(l, 1);
 				break;
 				
-			case "ls_name_asc":
+			case "ls_name":
 				System.out.println("sorted by name in ascending order");
 				TodoUtil.listAll(l, "title", 1);
 				break;
