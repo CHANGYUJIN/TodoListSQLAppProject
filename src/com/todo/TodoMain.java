@@ -9,16 +9,13 @@ import com.todo.service.TodoUtil;
 public class TodoMain {
 	
 	public static void start() {
-	
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
-		boolean isList = false;
+		//l.importData("todolist.txt");
 		boolean quit = false;
-		TodoUtil.loadList(l, "todolist.txt");
 		Menu.displaymenu();
 		do {
 			Menu.prompt();
-			isList = false;
 			String choice = sc.next();
 			String find_keyword = sc.nextLine().trim();
 			switch (choice) {
@@ -36,11 +33,15 @@ public class TodoMain {
 				break;
 			
 			case "find":
-				TodoUtil.findItem(l, find_keyword);
+				TodoUtil.findList(l, find_keyword);
 				break;
 				
 			case "find_cate":
-				TodoUtil.findCategory(l, find_keyword);
+				TodoUtil.findCateList(l, find_keyword);
+				break;
+			
+			case "comp":
+				TodoUtil.completeItem(l, find_keyword);
 				break;
 			
 			case "ls":
@@ -48,33 +49,31 @@ public class TodoMain {
 				break;
 			
 			case "ls_cate":
-				TodoUtil.listCategory(l);
+				TodoUtil.listCateAll(l);
+				break;
+				
+			case "ls_comp":
+				TodoUtil.listAll(l, 1);
 				break;
 				
 			case "ls_name_asc":
-				l.sortByName();
 				System.out.println("sorted by name in ascending order");
-				isList = true;
+				TodoUtil.listAll(l, "title", 1);
 				break;
 
 			case "ls_name_desc":
-				l.sortByName();
-				l.reverseList();
 				System.out.println("sorted by name in descending order");
-				isList = true;
+				TodoUtil.listAll(l, "title", 0);
 				break;
 				
 			case "ls_date":
-				l.sortByDate();
 				System.out.println("sorted by date in ascending order");
-				isList = true;
+				TodoUtil.listAll(l, "due_date", 1);
 				break;
 				
 			case "ls_date_desc":
-				l.sortByDate();
-				l.reverseList();
 				System.out.println("sorted by date in descending order");
-				isList = true;
+				TodoUtil.listAll(l, "due_date", 0);
 				break;
 				
 			case "help":
@@ -89,10 +88,9 @@ public class TodoMain {
 				System.out.println("command not exist (enter 'help' to see the commands)");
 				break;
 			}
-			
-			if(isList) TodoUtil.listAll(l);
 		} while (!quit);
 		TodoUtil.saveList(l, "todolist.txt");
 		
 	}
+	
 }
