@@ -118,12 +118,13 @@ public class TodoList {
 	}
 	
 	public int completeItem(TodoItem t) {
-		String sql = "insert into list (is_completed)" + " values (?);";
+		String sql = "update list set is_completed = ?" + " where id=?;";
 		PreparedStatement pstmt;
 		int count = 0;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, 1);
+			pstmt.setInt(2, t.getId());
 			count = pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
@@ -348,8 +349,8 @@ public class TodoList {
 		return list.indexOf(t);
 	}
 
-	public Boolean isDuplicate(String title) {
-		for (TodoItem item : list) {
+	public Boolean isDuplicate(String title, TodoList l) {
+		for (TodoItem item : l.getList()) {
 			if (title.equals(item.getTitle())) return true;
 		}
 		return false;

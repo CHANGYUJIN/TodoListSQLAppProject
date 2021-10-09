@@ -1,14 +1,10 @@
 package com.todo.service;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import com.todo.dao.TodoItem;
 import com.todo.dao.TodoList;
@@ -27,7 +23,7 @@ public class TodoUtil {
 		System.out.print("title > ");
 		
 		title = sc.next();
-		if (list.isDuplicate(title)) {
+		if (list.isDuplicate(title, list)) {
 			System.out.printf("title can't be duplicate");
 			return;
 		}
@@ -228,6 +224,7 @@ public class TodoUtil {
 			if(item.getId() == id) {
 				check = 1;
 				item.setIs_completed(1);
+				l.completeItem(item);
 				System.out.println("the item has been completed.");
 				break;
 			}
